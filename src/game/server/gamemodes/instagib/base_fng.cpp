@@ -83,11 +83,11 @@ void CGameControllerBaseFng::OnShowStatsAll(const CSqlStatsPlayer *pStats, class
 	str_format(
 		aBuf,
 		sizeof(aBuf),
-		"~~~ all time stats for '%s'",
+		"[===] All-time stats for '%s' [===]",
 		pRequestedName);
 	GameServer()->SendChatTarget(pRequestingPlayer->GetCid(), aBuf);
 
-	str_format(aBuf, sizeof(aBuf), "~ Points: %d, Wins: %d, Deaths: %d", pStats->m_Points, pStats->m_Wins, pStats->m_Deaths);
+	str_format(aBuf, sizeof(aBuf), "- Points: %d, Wins: %d, Deaths: %d", pStats->m_Points, pStats->m_Wins, pStats->m_Deaths);
 	GameServer()->SendChatTarget(pRequestingPlayer->GetCid(), aBuf);
 
 	char aAccuracy[512];
@@ -384,7 +384,7 @@ bool CGameControllerBaseFng::OnSelfkill(int ClientId)
 	if(!pChr->m_FreezeTime)
 		return false;
 
-	GameServer()->SendChatTarget(ClientId, "You can't kill while being frozen");
+	GameServer()->SendChatTarget(ClientId, "You can't kill while being frozen ¬_¬");
 	return true;
 }
 

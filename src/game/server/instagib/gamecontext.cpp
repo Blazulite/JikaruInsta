@@ -61,37 +61,39 @@ void CGameContext::ShowCurrentInstagibConfigsMotd(int ClientId, bool Force) cons
 	char aBuf[512];
 	aMotd[0] = '\0';
 
+	str_append(aMotd, "・ Settings\n\n");
+
 	if(g_Config.m_SvTournament)
 		str_append(aMotd, "!!! ACTIVE TOURNAMENT RUNNING !!!");
 
 	if(g_Config.m_SvPlayerReadyMode)
 	{
-		str_append(aMotd, "* ready mode: on\n");
+		str_append(aMotd, "[x] 'Ready' mode\n");
 		str_format(aBuf, sizeof(aBuf), "  - max pause time: %d\n", g_Config.m_SvForceReadyAll);
 		str_append(aMotd, aBuf);
 	}
 	else
-		str_append(aMotd, "* ready mode: off\n");
+		str_append(aMotd, "[  ] 'Ready' mode\n");
 
 	// TODO: check if the spawn weapons include laser and only then print this
 	if(g_Config.m_SvReloadTimeOnHit > 0)
 	{
-		str_append(aMotd, "* laser kill refills ammo (on fire mode)\n");
+		str_append(aMotd, "Laser Kill Refills Ammo (on fire mode)\n");
 	}
 
 	if(m_pController->GameFlags() & GAMEFLAG_FLAGS)
 	{
 		if(g_Config.m_SvDropFlagOnVote || g_Config.m_SvDropFlagOnSelfkill)
 		{
-			str_append(aMotd, "* dropping the flag is on '/drop flag'\n");
+			str_append(aMotd, "* Dropping the flag is on '/drop flag'\n");
 			if(g_Config.m_SvDropFlagOnSelfkill)
-				str_append(aMotd, "  - selfkill drops the flag\n");
+				str_append(aMotd, "  - Selfkill drops the flag\n");
 			if(g_Config.m_SvDropFlagOnVote)
-				str_append(aMotd, "  - vote yes drops the flag\n");
+				str_append(aMotd, "  - Vote 'yes' drops the flag\n");
 		}
 	}
 
-	str_format(aBuf, sizeof(aBuf), "* allow spec public chat: %s\n", g_Config.m_SvTournamentChat ? "no" : "yes");
+	str_format(aBuf, sizeof(aBuf), "%s Allow spectators use the public chat\n", g_Config.m_SvTournamentChat ? "[  ]" : "[x]");
 	str_append(aMotd, aBuf);
 
 	if(g_Config.m_SvGametype[0] == 'g')
@@ -99,9 +101,9 @@ void CGameContext::ShowCurrentInstagibConfigsMotd(int ClientId, bool Force) cons
 		str_format(aBuf, sizeof(aBuf), "* damage needed for kill: %d\n", g_Config.m_SvDamageNeededForKill);
 		str_append(aMotd, aBuf);
 
-		str_format(aBuf, sizeof(aBuf), "* spray protection: %s\n", g_Config.m_SvSprayprotection ? "on" : "off");
+		str_format(aBuf, sizeof(aBuf), "%s Spray protection\n", g_Config.m_SvSprayprotection ? "[x]" : "[  ]");
 		str_append(aMotd, aBuf);
-		str_format(aBuf, sizeof(aBuf), "* spam protection: %s\n", g_Config.m_SvGrenadeAmmoRegen ? "on" : "off");
+		str_format(aBuf, sizeof(aBuf), "%s Spam protection\n", g_Config.m_SvGrenadeAmmoRegen ? "[x]" : "[  ]");
 		str_append(aMotd, aBuf);
 		if(g_Config.m_SvGrenadeAmmoRegen)
 		{
@@ -110,7 +112,7 @@ void CGameContext::ShowCurrentInstagibConfigsMotd(int ClientId, bool Force) cons
 				pMode = "one";
 			else if(g_Config.m_SvGrenadeAmmoRegenOnKill == 2)
 				pMode = "all";
-			str_format(aBuf, sizeof(aBuf), "  - refill nades on kill: %s\n", pMode);
+			str_format(aBuf, sizeof(aBuf), "  - Refill Nades on Kill: %s\n", pMode);
 			str_append(aMotd, aBuf);
 		}
 	}
@@ -125,28 +127,28 @@ void CGameContext::ShowCurrentInstagibConfigsMotd(int ClientId, bool Force) cons
 	//
 	// because we are not correctly implementing vanilla physics that should be noted
 	if(m_pController && m_pController->IsVanillaGameType())
-		str_append(aMotd, "* hammer through walls: on\n");
+		str_append(aMotd, "[x] Hammer Through Walls\n");
 
 	if(m_pController->IsFngGameType())
 	{
-		str_format(aBuf, sizeof(aBuf), "* fng hammer tuning: %s\n", g_Config.m_SvFngHammer ? "on" : "off");
+		str_format(aBuf, sizeof(aBuf), "%s FNG Hammer Tuning\n", g_Config.m_SvFngHammer ? "[x]" : "[  ]");
 		str_append(aMotd, aBuf);
 	}
 	else if(g_Config.m_SvFngHammer)
 	{
-		str_append(aMotd, "! WARNING: fng hammer tuning: on\n");
+		str_append(aMotd, "[x] FNG Hammer Tuning\n");
 	}
 
 	if(g_Config.m_SvSwapFlags)
-		str_append(aMotd, "! WARNING: flag spawns are swapped\n");
+		str_append(aMotd, "/!\\ Flag Spawns Are Swapped\n");
 	if(g_Config.m_SvAllowZoom)
-		str_append(aMotd, "! WARNING: using zoom is allowed\n");
+		str_append(aMotd, "/!\\ Using Zoom is Allowed\n");
 	if(g_Config.m_SvOnlyHookKills)
-		str_append(aMotd, "! WARNING: only hooked enemies can be killed\n");
+		str_append(aMotd, "/!\\ Only Hooked Enemies Can Be Killed\n");
 	if(g_Config.m_SvOnlyWallshotKills)
-		str_append(aMotd, "! WARNING: only wallshots can kill\n");
+		str_append(aMotd, "/!\\ Only Wallshots Can Kill\n");
 	if(g_Config.m_SvKillHook)
-		str_append(aMotd, "! WARNING: the hook kills\n");
+		str_append(aMotd, "/!\\ The Hook Kills\n");
 
 	CNetMsg_Sv_Motd Msg;
 	Msg.m_pMessage = aMotd;
