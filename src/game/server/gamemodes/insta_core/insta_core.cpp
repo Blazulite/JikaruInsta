@@ -267,11 +267,7 @@ void CGameControllerInstaCore::OnCharacterSpawn(class CCharacter *pChr)
 		str_format(
 			aBuf,
 			sizeof(aBuf),
-<<<<<<< HEAD
-			"'%s' spawned frozen because he quit while being frozen",
-=======
 			"'%s' spawned frozen because he quit while being frozen :P",
->>>>>>> eea14cea51 (Initial Commit)
 			Server()->ClientName(pPlayer->GetCid()));
 		SendChat(-1, TEAM_ALL, aBuf);
 	}
